@@ -45,9 +45,10 @@ function nospace(board)
 		for(var j=0;j<4;j++){
 			if(board[i][j]==0)
 				return false;
-			return true;
+			
 		}
 	}
+	return true;
 }
 
 function canMoveLeft(board)
@@ -70,7 +71,7 @@ function canMoveRight(board)
 {
 	for(var i=0;i<4;i++)
 	{
-		for(var j=0;j<3;j++){
+		for(var j = 2; j >= 0 ; j --){
 			if(board[i][j]!=0)
 			{
 				if(board[i][j+1]==0||board[i][j]==board[i][j+1])
@@ -84,34 +85,25 @@ function canMoveRight(board)
 
 function canMoveUp(board)
 {
-	for(var i=1;i<4;i++)
-	{
-		for(var j=0;j<4;j++){
-			if(board[i][j]!=0)
-			{
-				if(board[i-1][j]==0||board[i][j]==board[i-1][j])
-					return true;
-			}
+	 for( var j = 0 ; j < 4 ; j ++ )
+        for( var i = 1 ; i < 4 ; i ++ )
+            if( board[i][j] != 0 )
+                if( board[i-1][j] == 0 || board[i-1][j] == board[i][j] )
+                    return true;
 
-		}
-	}
-	return false;
+    return false;
 }
 
 function canMoveDown(board)
 {
-	for(var i=0;i<3;i++)
-	{
-		for(var j=0;j<4;j++){
-			if(board[i][j]!=0)
-			{
-				if(board[i+1][j]==0||board[i][j]==board[i+1][j])
-					return true;
-			}
 
-		}
-	}
-	return false;
+    for( var j = 0 ; j < 4 ; j ++ )
+        for( var i = 2 ; i >= 0 ; i -- )
+            if( board[i][j] != 0 )
+                if( board[i+1][j] == 0 || board[i+1][j] == board[i][j] )
+                    return true;
+
+    return false;
 }
 
 
@@ -119,18 +111,18 @@ function noBlockHorizontal(row,col1,col2,board)
 {
 	for (var i = col1+1; i < col2; i++) {
 		if(board[row][i]!=0)
-			return false;
-		return true;
+			return false;	
 	}
+	return true;
 }
 
 function noBlockVertical(col,row1,row2,board)
 {
 	for (var i = row1+1; i < row2; i++) {
 		if(board[i][col]!=0)
-			return false;
-		return true;
+			return false;		
 	}
+	return true;
 }
 
 function nomove(board)
@@ -139,6 +131,6 @@ function nomove(board)
 		canMoveRight(board)||
 		canMoveUp(board)||
 		canMoveDown(board))
-		return false
+		return false;
 	return true;
 }

@@ -82,13 +82,26 @@ function generateOneNumber()
 		//随机一个位置
 		var randx=parseInt(Math.floor(Math.random()*4));
 		var randy=parseInt(Math.floor(Math.random()*4));
-		while(true)
-		{
-			if(board[randx][randy]==0)
-				break;
-			randx=parseInt(Math.floor(Math.random()*4));
-		 	randy=parseInt(Math.floor(Math.random()*4));
-		}
+
+    	var times = 0;
+	    while( times < 50 ){
+	        if( board[randx][randy] == 0 )
+	            break;
+
+	        randx = parseInt( Math.floor( Math.random()  * 4 ) );
+	        randy = parseInt( Math.floor( Math.random()  * 4 ) );
+
+	        times ++;
+	    }
+	    if( times == 50 ){
+	        for( var i = 0 ; i < 4 ; i ++ )
+	            for( var j = 0 ; j < 4 ; j ++ ){
+	                if( board[i][j] == 0 ){
+	                    randx = i;
+	                    randy = j;
+	                }
+	            }
+	    }
 		//随机一个数字
 		var randNumber=Math.random()<0.5?2:4;
 
@@ -246,16 +259,16 @@ function moveUp()
 						board[i][j]=0;
 						continue;
 					}
-					else if (board[k][j]==board[i][j]&&noBlockVertical(j,k,i,board)&&!hasConflicted[k][i]) {
+					else if (board[k][j]==board[i][j]&&noBlockVertical(j,k,i,board)&&!hasConflicted[k][j]) {
 						//move
 						showMoveAnimation(i,j,k,j);
 						//add
 						board[k][j]+=board[i][j];
 						board[i][j]=0;
 						//add score
-                        score += board[i][k];
+                        score += board[k][j];
                         updateScore( score );
-                        hasConflicted[k][i]=true;
+                        hasConflicted[k][j]=true;
 						continue;
 					}
 				}
@@ -278,7 +291,7 @@ function moveDown()
 		for( var i = 2 ; i >= 0 ; i -- ){
 			if(board[i][j]!=0)
 			{
-				for(var k=3;k>i;k++)
+				for(var k=3;k>i;k--)
 				{
 					if(board[k][j]==0&&noBlockVertical(j,i,k,board))
 					{
@@ -288,16 +301,16 @@ function moveDown()
 						board[i][j]=0;
 						continue;
 					}
-					else if (board[k][j]==board[i][j]&&noBlockVertical(j,i,k,board)&&!hasConflicted[k][i]) {
+					else if (board[k][j]==board[i][j]&&noBlockVertical(j,i,k,board)&&!hasConflicted[k][j]) {
 						//move
 						showMoveAnimation(i,j,k,j);
 						//add
 						board[k][j]+=board[i][j];
 						board[i][j]=0;
 						//add score
-                        score += board[i][k];
+                        score += board[k][j];
                         updateScore( score );
-                        hasConflicted[k][i]=true;
+                        hasConflicted[k][j]=true;
 						continue;
 					}
 				}
